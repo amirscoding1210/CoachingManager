@@ -1,0 +1,15 @@
+<Page x:Class="YourNamespace.Views.Dashboard.DashboardPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      Title="Dashboard Page"
+      Width="1000" Height="600"
+      Background="{DynamicResource MaterialDesignPaper}"
+      >
+
+    <Grid>
+        <!-- Add your dashboard content here -->
+    </Grid>
+</Page>
