@@ -1,6 +1,7 @@
 ﻿using Coaching_Manager;
 using CoachingCenterApp.Services;
 using CoachingCenterApp.Helpers;
+using CoachingCenterApp.Views.Login;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,6 +18,8 @@ namespace CoachingCenterApp.ViewModels
             _authService = new AuthService();
             LoginCommand = new RelayCommand(Login);
             TogglePasswordCommand = new RelayCommand(_ => TogglePassword());
+            ForgotPasswordCommand = new RelayCommand(_ => { /* Implementation */ });
+            SignUpCommand = new RelayCommand(_ => { /* Implementation */ });
         }
 
         private string _username = string.Empty;
