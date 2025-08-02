@@ -1,0 +1,15 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CoachingCenterApp.Helpers">
+    <!-- Converters -->
+    <local:CollapseIconConverter x:Key="CollapseIconConverter"/>
+
+    <!-- Sidebar Button Style -->
+    <Style x:Key="SidebarButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="10 8"/>
+        <Setter Property="Margin" Value="0 5"/>
+    </Style>
+</ResourceDictionary>
