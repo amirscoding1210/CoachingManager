@@ -9,50 +9,152 @@
 
     <UserControl.Resources>
         <local:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+        <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:EyeToggleConverter x:Key="EyeToggleConverter"/> 
+        <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignTextBlock}">
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
+        </Style>
     </UserControl.Resources>
 
     <Grid Background="{DynamicResource MaterialDesignPaper}">
-        <materialDesign:Card Width="400" Padding="30"
+        <!-- Background decorative element -->
+        <Ellipse Width="600" Height="600" 
+                 HorizontalAlignment="Right" VerticalAlignment="Top"
+                 Margin="0,-300,-300,0"
+                 Fill="{DynamicResource PrimaryHueLightBrush}" 
+                 Opacity="0.1"/>
+
+        <materialDesign:Card Width="450" Padding="40"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Center"
-                             >
+                             UniformCornerRadius="4"
+                             materialDesign:ElevationAssist.Elevation="Dp6">
             <StackPanel>
+                <!-- Logo/App Name -->
+                <StackPanel HorizontalAlignment="Center" Margin="0 0 0 30">
+                    <TextBlock Text="COACHING MANAGER"
+                               FontFamily="DholeshwariOMJ"
+                               FontSize="18"
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center"
+                               Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                    <Rectangle Height="2" Width="40" 
+                               Fill="{DynamicResource PrimaryHueMidBrush}"
+                               Margin="0 8 0 0"/>
+                </StackPanel>
 
-                <TextBlock Text="Login"
-                           FontSize="22"
-                           FontWeight="Bold"
+                <!-- Header -->
+                <TextBlock Text="Welcome"
+                           FontSize="24"
+                           FontWeight="SemiBold"
                            HorizontalAlignment="Center"
-                           Margin="0 0 0 20"
-                           Foreground="{DynamicResource MaterialDesignBody}" />
+                           Margin="0 0 0 4"/>
+
+                <TextBlock Text="Please login to continue"
+                           FontSize="14"
+                           HorizontalAlignment="Center"
+                           Margin="0 0 0 25"
+                           Foreground="{DynamicResource MaterialDesignBodyLight}"/>
 
                 <!-- Username -->
                 <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:HintAssist.Hint="Username"
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                         Margin="0,0,0,20" />
+                         materialDesign:HintAssist.FloatingScale="1"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         Margin="0,0,0,20"
+                         FontSize="14"/>
 
-                <!-- Password -->
-                <PasswordBox x:Name="PasswordBox"
-                             PasswordChanged="PasswordBox_PasswordChanged"
-                             materialDesign:HintAssist.Hint="Password"
-                             Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
-                             Margin="0,0,0,10" />
+                <!-- Password Field with Toggle -->
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- PasswordBox (hidden when showing text) -->
+                    <PasswordBox x:Name="PasswordBox"
+                                 PasswordChanged="PasswordBox_PasswordChanged"
+                                 materialDesign:HintAssist.Hint="Password"
+                                 materialDesign:HintAssist.FloatingScale="1"
+                                 Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                                 FontSize="14"
+                                 Visibility="{Binding IsPasswordVisible, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Reverse}"/>
+
+                    <!-- TextBox (shown when revealing password) -->
+                    <TextBox x:Name="VisiblePasswordBox"
+                              Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              materialDesign:HintAssist.Hint="Password"
+                              materialDesign:HintAssist.FloatingScale="1"
+                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                              FontSize="14"
+                              Visibility="{Binding IsPasswordVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                    <!-- Toggle button -->
+                    <Button Grid.Column="1"
+                            Style="{StaticResource MaterialDesignIconButton}"
+                            Foreground="{DynamicResource MaterialDesignBodyLight}"
+                            VerticalAlignment="Center"
+                            Margin="4 0 0 0"
+                            Command="{Binding TogglePasswordCommand}">
+                        <materialDesign:PackIcon Kind="{Binding IsPasswordVisible, Converter={StaticResource EyeToggleConverter}}" Width="20" Height="20"/>
+                    </Button>
+                </Grid>
+
+                <!-- Remember Me & Forgot Password -->
+                <Grid Margin="0 0 0 20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Content="Remember me"
+                              IsChecked="{Binding RememberMe}"
+                              VerticalAlignment="Center"
+                              Style="{StaticResource MaterialDesignCheckBox}"/>
+
+                    <Button Grid.Column="1"
+                            Content="Forgot password?"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Foreground="{DynamicResource PrimaryHueMidBrush}"
+                            Padding="0"
+                            Command="{Binding ForgotPasswordCommand}"/>
+                </Grid>
 
                 <!-- Error Message -->
-                <TextBlock Text="{Binding ErrorMessage}"
-                           Foreground="Red"
-                           FontSize="12"
-                           Margin="0 0 0 10"
-                           Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}" />
+                <Border Background="{DynamicResource MaterialDesignValidationErrorBrush}" 
+                        CornerRadius="2"
+                        Padding="10"
+                        Margin="0 0 0 20"
+                        Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}">
+                    <TextBlock Text="{Binding ErrorMessage}"
+                               Foreground="White"
+                               FontSize="12"
+                               TextWrapping="Wrap"/>
+                </Border>
 
                 <!-- Login Button -->
-                <Button Content="Login"
+                <Button Content="LOGIN"
                         Command="{Binding LoginCommand}"
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         Background="{DynamicResource PrimaryHueMidBrush}"
-                        Foreground="White"
-                        Height="40"
-                        FontWeight="Bold"/>
+                        Foreground="{DynamicResource MaterialDesignShadowBrush}"
+                        Height="45"
+                        FontWeight="SemiBold"
+                        FontSize="14"
+                        Margin="0 0 0 20"/>
+
+                <!-- Sign Up Prompt -->
+                
+               <!-- <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Don't have an account?" 
+                               FontSize="12"/>
+                    <Button Content="Sign up"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Foreground="{DynamicResource PrimaryHueMidBrush}"
+                            FontSize="12"
+                            Padding="4 0"
+                            Command="{Binding SignUpCommand}"/>
+                </StackPanel> -->
             </StackPanel>
         </materialDesign:Card>
     </Grid>

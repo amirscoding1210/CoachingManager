@@ -10,6 +10,15 @@ namespace CoachingCenterApp.Views.Login
         {
             InitializeComponent();
             DataContext = new LoginViewModel();
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is LoginViewModel vm)
+            {
+                vm.PasswordBox = PasswordBox;
+            }
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
